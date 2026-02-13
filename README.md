@@ -8,15 +8,16 @@ A doctor-to-doctor post-referral continuity platform designed for Rwanda's tiere
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
 
+## Overview
+
+CareLink+ enables structured, asynchronous doctor-to-doctor consultations between referral hospital specialists, district hospital clinicians, and local health center providers. The platform addresses post-referral continuity of care challenges by creating a seamless communication channel for patient follow-up care.
+
 ## Links 
 
 Here you can Find the [Live Demo](https://youtu.be/uXfMwugL6QM)
 
 And Here You can find the [Design Link](https://www.figma.com/design/2e7ABSnRPJAnTJbpaWHCZs/CareLink--Designs?node-id=1-210&t=9c3l55vgh8kf9hSr-0)
 
-## Overview
-
-CareLink+ enables structured, asynchronous doctor-to-doctor consultations between referral hospital specialists, district hospital clinicians, and local health center providers. The platform addresses post-referral continuity of care challenges by creating a seamless communication channel for patient follow-up care.
 
 ## Tech Stack
 
