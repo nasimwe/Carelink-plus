@@ -9,8 +9,8 @@ A doctor-to-doctor post-referral continuity platform designed for Rwanda's tiere
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
 
 ##Links 
-[![Live Demo]([https://img.shields.io/badge/🎬_Demo_Video-Watch_Now-red?style=for-the-badge)](https://youtube.com/your-video-link](https://youtu.be/uXfMwugL6QM))
-[![Figma Designs]([https://img.shields.io/badge/🎨_Figma-View_Designs-F24E1E?style=for-the-badge&logo=figma&logoColor=white)](https://figma.com/your-design-link](https://www.figma.com/design/2e7ABSnRPJAnTJbpaWHCZs/CareLink--Designs?node-id=1-210&t=9c3l55vgh8kf9hSr-0))
+[Live Demo] (https://youtu.be/uXfMwugL6QM)
+[Design Link ] (https://www.figma.com/design/2e7ABSnRPJAnTJbpaWHCZs/CareLink--Designs?node-id=1-210&t=9c3l55vgh8kf9hSr-0)
 
 ## Overview
 
