@@ -1,75 +1,169 @@
 # CareLink+
 
-A doctor-to-doctor post-referral continuity platform designed for Rwanda's tiered healthcare system.
+**Post-Referral Healthcare Continuity Platform for Rwanda**
 
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-20_LTS-339933?logo=node.js&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?logo=postgresql&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
+CareLink+ is a comprehensive healthcare referral management system designed to facilitate seamless communication between clinicians and specialists across different healthcare facilities in Rwanda. The platform enables patient discharge profile creation, consultation requests, and specialist responses, ensuring continuity of care for patients after hospital discharge.
 
-## Overview
+---
 
-CareLink+ enables structured, asynchronous doctor-to-doctor consultations between referral hospital specialists, district hospital clinicians, and local health center providers. The platform addresses post-referral continuity of care challenges by creating a seamless communication channel for patient follow-up care.
+## Table of Contents
 
-## Links 
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Environment Configuration](#environment-configuration)
+  - [Database Setup](#database-setup)
+  - [Running the Application](#running-the-application)
+- [User Roles](#user-roles)
+- [Application Workflow](#application-workflow)
+- [API Documentation](#api-documentation)
+- [Database Schema](#database-schema)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
 
-Here you can Find the [Live Demo](https://youtu.be/uXfMwugL6QM)
+---
 
-And Here You can find the [Design Link](https://www.figma.com/design/2e7ABSnRPJAnTJbpaWHCZs/CareLink--Designs?node-id=1-210&t=9c3l55vgh8kf9hSr-0)
+## Features
 
+### Core Features
 
-## Tech Stack
+- **Patient Discharge Profiles**: Specialists create comprehensive discharge profiles with diagnosis, treatment, and follow-up instructions
+- **Unique Patient Codes**: Auto-generated patient codes (format: `RW-XXXXX-XXXX`) for easy patient lookup across facilities
+- **Consultation Requests**: Clinicians can request specialist consultations for discharged patients
+- **Care Pathway Recommendations**: Specialists provide structured care pathway guidance (Home Care, Local Clinic, District Referral, Urgent Transfer)
+- **Real-time Notifications**: In-app notifications for consultation requests and responses
+- **SMS Integration**: Patient codes sent via SMS using Twilio
+- **Role-Based Access Control**: Three distinct user roles with specific permissions
 
-| Layer | Technologies |
-|-------|-------------|
-| **Frontend** | React 18, Redux Toolkit, React Router v6, Tailwind CSS, Axios |
-| **Backend** | Node.js 20 LTS, Express.js 4.x, JWT Authentication, Joi Validation |
-| **Database** | PostgreSQL 15, Sequelize ORM, Redis (session caching) |
-| **Infrastructure** | Docker, AWS EC2/RDS, GitHub Actions CI/CD, Nginx |
-| **External Services** | Africa's Talking SMS, SendGrid Email, AWS S3 |
+### Dashboard Features
+
+- **Clinician Dashboard**: View pending consultations, recent responses, and patient search
+- **Specialist Dashboard**: Manage consultations, create discharge profiles, track response metrics
+- **Admin Dashboard**: User management, facility management, system analytics
+- **Executive Dashboard**: High-level overview with Rwanda map visualization and key metrics
+
+### Additional Features
+
+- **Responsive Design**: Fully responsive UI optimized for desktop, tablet, and mobile devices
+- **Healthcare Coverage Map**: Interactive Rwanda map showing facility distribution by province
+- **Analytics & Reports**: System-wide analytics for administrators
+- **Multi-facility Support**: Support for Referral Hospitals, District Hospitals, and Health Centers
+
+---
+
+## Technology Stack
+
+### Frontend
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React | 19.2.0 | UI Library |
+| TypeScript | 5.9.3 | Type Safety |
+| Vite | 7.3.1 | Build Tool & Dev Server |
+| React Router DOM | 7.13.0 | Client-side Routing |
+| TanStack React Query | 5.90.21 | Server State Management |
+| Axios | 1.13.5 | HTTP Client |
+| TailwindCSS | 4.1.18 | Styling |
+| Lucide React | 0.564.0 | Icons |
+
+### Backend
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| Node.js | 18+ | Runtime |
+| Express | 5.2.1 | Web Framework |
+| TypeScript | 5.9.3 | Type Safety |
+| Sequelize | 6.37.7 | ORM |
+| PostgreSQL | - | Database |
+| JSON Web Tokens | 9.0.3 | Authentication |
+| bcryptjs | 3.0.3 | Password Hashing |
+| Twilio | 5.12.2 | SMS Service |
+
+---
 
 ## Project Structure
 
 ```
-carelink-plus/
-├── client/                    # React frontend
+CareLink+/
+├── client/                      # React Frontend
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── common/        # Reusable UI primitives
-│   │   │   ├── layout/        # Page structure components
-│   │   │   └── consultation/  # Domain-specific components
-│   │   ├── pages/             # Route components
-│   │   ├── hooks/             # Custom React hooks
-│   │   ├── store/             # Redux slices
-│   │   └── services/          # API layer
-│   └── package.json
+│   │   ├── assets/              # Static assets (images, fonts)
+│   │   ├── components/          # Reusable UI components
+│   │   │   ├── Layout/          # Layout components (Header, Layout)
+│   │   │   ├── ui/              # UI components (RwandaMap, AnimatedStat)
+│   │   │   └── ProtectedRoute.tsx
+│   │   ├── contexts/            # React Contexts
+│   │   │   └── AuthContext.tsx  # Authentication state management
+│   │   ├── hooks/               # Custom React hooks
+│   │   ├── pages/               # Page components
+│   │   │   ├── admin/           # Administrator pages
+│   │   │   ├── clinician/       # Clinician pages
+│   │   │   ├── specialist/      # Specialist pages
+│   │   │   ├── Login.tsx
+│   │   │   └── Notifications.tsx
+│   │   ├── services/            # API client services
+│   │   │   └── api.ts
+│   │   ├── types/               # TypeScript interfaces & enums
+│   │   ├── App.tsx              # Main application with routing
+│   │   ├── main.tsx             # Application entry point
+│   │   └── index.css            # Global styles
+│   ├── public/                  # Public static files
+│   ├── package.json
+│   ├── vite.config.ts
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
+│   └── netlify.toml             # Netlify deployment config
 │
-├── server/                    # Node.js backend
+├── server/                      # Node.js Backend
 │   ├── src/
-│   │   ├── config/            # Database, Redis configuration
-│   │   ├── middleware/        # Auth, validation, error handling
-│   │   ├── routes/            # API route definitions
-│   │   ├── controllers/       # Request handlers
-│   │   ├── services/          # Business logic
-│   │   ├── models/            # Sequelize models
-│   │   └── utils/             # Logger, SMS, Email services
-│   ├── tests/
-│   ├── migrations/
-│   └── seeders/
+│   │   ├── config/              # Configuration files
+│   │   │   └── database.ts      # Sequelize database config
+│   │   ├── controllers/         # Route handlers
+│   │   │   ├── authController.ts
+│   │   │   ├── patientController.ts
+│   │   │   ├── consultationController.ts
+│   │   │   ├── notificationController.ts
+│   │   │   └── adminController.ts
+│   │   ├── middleware/          # Express middleware
+│   │   │   └── auth.ts          # JWT authentication & authorization
+│   │   ├── models/              # Sequelize models
+│   │   │   ├── User.ts
+│   │   │   ├── Patient.ts
+│   │   │   ├── Consultation.ts
+│   │   │   ├── Facility.ts
+│   │   │   ├── Notification.ts
+│   │   │   └── index.ts
+│   │   ├── routes/              # API route definitions
+│   │   │   ├── auth.ts
+│   │   │   ├── patients.ts
+│   │   │   ├── consultations.ts
+│   │   │   ├── notifications.ts
+│   │   │   ├── admin.ts
+│   │   │   └── index.ts
+│   │   ├── services/            # Business logic services
+│   │   │   └── smsService.ts    # Twilio SMS integration
+│   │   ├── types/               # TypeScript types
+│   │   ├── index.ts             # Server entry point
+│   │   └── seed.ts              # Database seeding script
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── .env.example
 │
-├── docker-compose.yml
-└── README.md
+└── README.md                    # This file
 ```
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 20 LTS
-- PostgreSQL 15
-- Redis
-- Docker (optional)
+- **Node.js** >= 18.0.0
+- **npm** >= 9.0.0 or **yarn** >= 1.22.0
+- **PostgreSQL** >= 14.0 (or Supabase account)
+- **Git**
 
 ### Installation
 
@@ -79,161 +173,487 @@ carelink-plus/
    cd carelink-plus
    ```
 
-2. **Set up environment variables**
-   ```bash
-   # Server
-   cp server/.env.example server/.env
-   
-   # Client
-   cp client/.env.example client/.env
-   ```
-
-3. **Install dependencies**
-   ```bash
-   # Install server dependencies
-   cd server && npm install
-   
-   # Install client dependencies
-   cd ../client && npm install
-   ```
-
-4. **Run database migrations**
+2. **Install server dependencies**
    ```bash
    cd server
-   npm run db:migrate
-   npm run db:seed
+   npm install
    ```
 
-5. **Start the development servers**
+3. **Install client dependencies**
    ```bash
-   # Terminal 1 - Backend
-   cd server && npm run dev
-   
-   # Terminal 2 - Frontend
-   cd client && npm start
+   cd ../client
+   npm install
    ```
 
-### Docker Setup
+### Environment Configuration
 
-```bash
-docker-compose up -d
-```
+#### Server Environment (`.env`)
 
-## API Endpoints
-
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| `POST` | `/api/auth/login` | Public | User authentication |
-| `POST` | `/api/auth/logout` | Protected | Session termination |
-| `POST` | `/api/care-profiles` | Specialist | Create discharge profile |
-| `GET` | `/api/care-profiles` | Protected | List care profiles |
-| `POST` | `/api/consultations` | Clinician | Submit consultation request |
-| `GET` | `/api/consultations` | Protected | List consultations |
-| `POST` | `/api/consultations/:id/respond` | Specialist | Respond to consultation |
-
-## Database Schema
-
-```
-┌──────────────────┐       ┌──────────────────┐
-│  health_facilities│       │      users       │
-├──────────────────┤       ├──────────────────┤
-│ id               │◄──────│ facility_id      │
-│ name             │       │ id               │
-│ level            │       │ role             │
-│ district         │       │ email            │
-└──────────────────┘       └────────┬─────────┘
-                                    │
-                    ┌───────────────┴───────────────┐
-                    ▼                               ▼
-         ┌──────────────────┐           ┌──────────────────┐
-         │   care_profiles  │           │  consultations   │
-         ├──────────────────┤           ├──────────────────┤
-         │ id               │◄──────────│ care_profile_id  │
-         │ patient_name     │           │ id               │
-         │ diagnosis        │           │ status           │
-         │ specialist_id    │           │ submitted_by_id  │
-         └──────────────────┘           └────────┬─────────┘
-                                                 │
-                                                 ▼
-                                    ┌──────────────────────┐
-                                    │consultation_responses│
-                                    ├──────────────────────┤
-                                    │ id                   │
-                                    │ consultation_id      │
-                                    │ care_pathway         │
-                                    │ recommendations      │
-                                    └──────────────────────┘
-```
-
-## Key Features
-
-- **Role-Based Access Control**: Specialists, clinicians, and administrators have tailored permissions
-- **Asynchronous Consultations**: Structured request/response workflow for post-referral care
-- **SMS Notifications**: Real-time alerts via Africa's Talking integration
-- **Secure Authentication**: JWT tokens with Redis-backed session management
-- **Audit Logging**: Complete tracking of all consultation activities
-
-## Environment Variables
-
-### Server
+Create a `.env` file in the `/server` directory:
 
 ```env
+# Server Configuration
+PORT=5001
 NODE_ENV=development
-PORT=3001
-DATABASE_URL=postgresql://user:password@localhost:5432/carelink
-JWT_SECRET=your-secret-key
+
+# Database Configuration (PostgreSQL)
+DATABASE_URL=postgresql://username:password@host:5432/database_name
+
+# JWT Configuration
+JWT_SECRET=your_super_secure_jwt_secret_key_here
 JWT_EXPIRES_IN=7d
-REDIS_URL=redis://localhost:6379
-AFRICASTALKING_API_KEY=your-api-key
-AFRICASTALKING_USERNAME=your-username
-SENDGRID_API_KEY=your-sendgrid-key
-AWS_S3_BUCKET=your-bucket-name
+
+# Twilio SMS Configuration (Optional)
+TWILIO_ACCOUNT_SID=your_twilio_account_sid
+TWILIO_AUTH_TOKEN=your_twilio_auth_token
+TWILIO_PHONE_NUMBER=+1234567890
 ```
 
-### Client
+#### Client Environment (`.env`)
+
+Create a `.env` file in the `/client` directory:
 
 ```env
-REACT_APP_API_URL=http://localhost:3001/api
+VITE_API_URL=http://localhost:5001/api
 ```
 
-## Testing
+### Database Setup
 
+1. **Create PostgreSQL Database**
+   ```sql
+   CREATE DATABASE carelink_plus;
+   ```
+
+2. **Run Database Migrations**
+
+   The application uses Sequelize with `sync({ alter: true })` which automatically creates/updates tables based on models.
+
+3. **Seed Initial Data** (Optional)
+   ```bash
+   cd server
+   npm run seed
+   ```
+
+   This creates:
+   - Sample facilities (hospitals, health centers)
+   - Demo users for each role
+   - Sample patients and consultations
+
+### Running the Application
+
+#### Development Mode
+
+**Terminal 1 - Start Backend Server:**
 ```bash
-# Run backend tests
-cd server && npm test
+cd server
+npm run dev
+```
+Server runs on `http://localhost:5001`
 
-# Run frontend tests
-cd client && npm test
+**Terminal 2 - Start Frontend Development Server:**
+```bash
+cd client
+npm run dev
+```
+Client runs on `http://localhost:5173`
 
-# Run with coverage
-npm run test:coverage
+#### Production Build
+
+**Build Backend:**
+```bash
+cd server
+npm run build
+npm start
 ```
 
-## Deployment
-
-The project includes a GitHub Actions CI/CD pipeline that:
-
-1. Runs the test suite
-2. Builds the Docker image
-3. Pushes to Amazon ECR
-4. Deploys to Amazon ECS
-
-```yaml
-# Trigger deployment
-git push origin main
+**Build Frontend:**
+```bash
+cd client
+npm run build
+npm run preview  # Preview production build
 ```
-
-## Future Roadmap
-
-- [ ] OpenMRS/HMIS integration via HL7 FHIR APIs
-- [ ] Offline-first PWA with background sync
-- [ ] Real-time WebSocket notifications
-- [ ] AI-assisted clinical triage suggestions
-
-## License
-
-This project is part of a software engineering capstone portfolio.
 
 ---
 
-*Built to improve post-referral continuity of care in Rwanda's healthcare system*
+## User Roles
+
+### Specialist
+Healthcare specialists at referral or district hospitals who:
+- Create discharge profiles for patients
+- Respond to consultation requests from clinicians
+- Provide care pathway recommendations
+- Track their patient outcomes
+
+### Clinician
+Healthcare workers at health centers or local clinics who:
+- Search for patients using unique patient codes
+- View patient discharge profiles
+- Create consultation requests for specialist guidance
+- Implement care recommendations
+- Close consultations after completing care
+
+### Administrator
+System administrators who:
+- Manage user accounts (create, update, activate/deactivate)
+- Manage healthcare facilities
+- View system-wide analytics and reports
+- Monitor platform usage and performance
+
+---
+
+## Application Workflow
+
+### Patient Referral Flow
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   SPECIALIST    │     │    PATIENT      │     │   CLINICIAN     │
+│  (Hospital)     │     │                 │     │  (Health Center)│
+└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
+         │                       │                       │
+         │ 1. Create Discharge   │                       │
+         │    Profile            │                       │
+         ├───────────────────────┤                       │
+         │                       │                       │
+         │ 2. Patient Code       │                       │
+         │    Generated          │                       │
+         │    (SMS sent)         │                       │
+         │                       ├──────────────────────►│
+         │                       │ 3. Patient visits     │
+         │                       │    local clinic       │
+         │                       │                       │
+         │                       │                       │ 4. Clinician searches
+         │                       │                       │    patient by code
+         │                       │                       │
+         │                       │                       │ 5. Views discharge
+         │                       │                       │    profile
+         │                       │                       │
+         │◄──────────────────────┼───────────────────────┤
+         │ 6. Consultation       │                       │
+         │    Request received   │                       │
+         │                       │                       │
+         │ 7. Specialist         │                       │
+         │    responds with      │                       │
+         │    care pathway       │                       │
+         ├───────────────────────┼──────────────────────►│
+         │                       │                       │
+         │                       │                       │ 8. Clinician implements
+         │                       │                       │    recommendations
+         │                       │                       │
+         │                       │                       │ 9. Closes consultation
+         │                       │                       │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Care Pathways
+
+| Pathway | Description | Urgency |
+|---------|-------------|---------|
+| **Home Care** | Patient can be managed at home with medications/instructions | Low |
+| **Local Clinic** | Continue treatment at local health center | Medium |
+| **District Referral** | Refer to district hospital for further care | High |
+| **Urgent Transfer** | Immediate transfer to referral hospital required | Critical |
+
+---
+
+## API Documentation
+
+### Base URL
+- Development: `http://localhost:5001/api`
+- Production: `https://your-api-domain.com/api`
+
+### Authentication
+
+All protected endpoints require a JWT token in the Authorization header:
+```
+Authorization: Bearer <token>
+```
+
+### Endpoints
+
+#### Authentication (`/api/auth`)
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| POST | `/auth/login` | User login | No |
+| GET | `/auth/profile` | Get current user profile | Yes |
+| PUT | `/auth/change-password` | Change password | Yes |
+
+**Login Request:**
+```json
+POST /api/auth/login
+{
+  "email": "user@example.com",
+  "password": "password123"
+}
+```
+
+**Login Response:**
+```json
+{
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": 1,
+    "email": "user@example.com",
+    "firstName": "John",
+    "lastName": "Doe",
+    "role": "clinician",
+    "specialty": "General Medicine",
+    "facility": {
+      "id": 1,
+      "name": "Kigali Health Center"
+    }
+  }
+}
+```
+
+#### Patients (`/api/patients`)
+
+| Method | Endpoint | Description | Auth | Role |
+|--------|----------|-------------|------|------|
+| GET | `/patients/search?code=XXX` | Search patients by code | Yes | All |
+| GET | `/patients/code/:code` | Get patient by code | Yes | All |
+| GET | `/patients/:id` | Get patient by ID | Yes | All |
+| GET | `/patients/my-patients` | Get specialist's patients | Yes | Specialist |
+| POST | `/patients/discharge` | Create discharge profile | Yes | Specialist |
+
+**Create Discharge Profile:**
+```json
+POST /api/patients/discharge
+{
+  "diagnosisSummary": "Type 2 Diabetes Mellitus with hypertension",
+  "treatmentSummary": "Metformin 500mg twice daily, Lisinopril 10mg daily",
+  "expectedSideEffects": "Possible nausea with Metformin, dizziness with Lisinopril",
+  "warningSigns": "Severe hypoglycemia, chest pain, swelling of extremities",
+  "followUpInstructions": "Check blood glucose weekly, BP monitoring daily",
+  "dischargeDate": "2024-01-15",
+  "specialty": "Internal Medicine",
+  "patientPhone": "+250788123456"
+}
+```
+
+#### Consultations (`/api/consultations`)
+
+| Method | Endpoint | Description | Auth | Role |
+|--------|----------|-------------|------|------|
+| GET | `/consultations` | List consultations | Yes | All |
+| GET | `/consultations/:id` | Get consultation details | Yes | All |
+| GET | `/consultations/stats` | Get dashboard statistics | Yes | All |
+| POST | `/consultations` | Create consultation | Yes | Clinician |
+| PUT | `/consultations/:id/respond` | Respond to consultation | Yes | Specialist |
+| PUT | `/consultations/:id/close` | Close consultation | Yes | All |
+
+**Create Consultation:**
+```json
+POST /api/consultations
+{
+  "patientId": 1,
+  "symptoms": ["fatigue", "frequent urination", "blurred vision"],
+  "symptomDescription": "Patient reports increased fatigue over 2 weeks",
+  "vitalSigns": {
+    "temperature": 37.2,
+    "bloodPressureSystolic": 145,
+    "bloodPressureDiastolic": 92,
+    "pulseRate": 88,
+    "respiratoryRate": 18
+  },
+  "clinicalQuestion": "Blood glucose readings consistently above 200mg/dL despite medication. Should we adjust dosage or add insulin?",
+  "urgencyLevel": "urgent"
+}
+```
+
+**Respond to Consultation:**
+```json
+PUT /api/consultations/:id/respond
+{
+  "carePathway": "local_clinic",
+  "recommendations": "Increase Metformin to 1000mg twice daily. Add Glimepiride 2mg before breakfast. Continue BP medication.",
+  "medicationInstructions": "Take Metformin with meals. Monitor for hypoglycemia symptoms.",
+  "followUpTimeframe": "Review in 2 weeks"
+}
+```
+
+#### Notifications (`/api/notifications`)
+
+| Method | Endpoint | Description | Auth |
+|--------|----------|-------------|------|
+| GET | `/notifications` | Get user notifications | Yes |
+| PUT | `/notifications/:id/read` | Mark as read | Yes |
+| PUT | `/notifications/read-all` | Mark all as read | Yes |
+| DELETE | `/notifications/:id` | Delete notification | Yes |
+
+#### Admin (`/api/admin`)
+
+| Method | Endpoint | Description | Role |
+|--------|----------|-------------|------|
+| GET | `/admin/users` | List all users | Admin |
+| POST | `/admin/users` | Create user | Admin |
+| PUT | `/admin/users/:id` | Update user | Admin |
+| PATCH | `/admin/users/:id/toggle-status` | Toggle user active status | Admin |
+| GET | `/admin/facilities` | List facilities | Admin |
+| POST | `/admin/facilities` | Create facility | Admin |
+| PUT | `/admin/facilities/:id` | Update facility | Admin |
+| GET | `/admin/analytics` | Get system analytics | Admin |
+
+---
+
+## Database Schema
+
+### Entity Relationship Diagram
+
+```
+┌─────────────┐       ┌─────────────┐       ┌─────────────┐
+│   Facility  │       │    User     │       │ Notification│
+├─────────────┤       ├─────────────┤       ├─────────────┤
+│ id (PK)     │◄──┐   │ id (PK)     │───┬──►│ id (PK)     │
+│ name        │   │   │ email       │   │   │ userId (FK) │
+│ type        │   │   │ password    │   │   │ type        │
+│ district    │   │   │ firstName   │   │   │ title       │
+│ province    │   │   │ lastName    │   │   │ message     │
+│ address     │   └───│ facilityId  │   │   │ data (JSON) │
+│ phone       │       │ role        │   │   │ isRead      │
+│ email       │       │ specialty   │   │   │ readAt      │
+│ isActive    │       │ phone       │   │   │ createdAt   │
+│ createdAt   │       │ isActive    │   │   └─────────────┘
+│ updatedAt   │       │ lastLogin   │   │
+└─────────────┘       │ createdAt   │   │
+                      └─────────────┘   │
+                            │           │
+              ┌─────────────┴───────────┘
+              │             │
+              ▼             ▼
+┌─────────────────┐   ┌─────────────────┐
+│     Patient     │   │  Consultation   │
+├─────────────────┤   ├─────────────────┤
+│ id (PK)         │◄──│ id (PK)         │
+│ patientCode     │   │ patientId (FK)  │
+│ diagnosisSummary│   │ clinicianId(FK) │
+│ treatmentSummary│   │ facilityId (FK) │
+│ expectedSideEff │   │ symptoms[]      │
+│ warningSigns    │   │ symptomDesc     │
+│ followUpInstr   │   │ vitalSigns{}    │
+│ dischargeDate   │   │ clinicalQuestion│
+│ specialty       │   │ urgencyLevel    │
+│ createdById(FK) │   │ attachments[]   │
+│ facilityId (FK) │   │ status          │
+│ isActive        │   │ respondedById   │
+│ createdAt       │   │ respondedAt     │
+│ updatedAt       │   │ carePathway     │
+└─────────────────┘   │ recommendations │
+                      │ medicationInstr │
+                      │ followUpTime    │
+                      │ createdAt       │
+                      │ updatedAt       │
+                      └─────────────────┘
+```
+
+### Enums
+
+**UserRole:**
+- `specialist` - Hospital specialists
+- `clinician` - Health center clinicians
+- `administrator` - System administrators
+
+**FacilityType:**
+- `referral_hospital` - National referral hospitals
+- `district_hospital` - District-level hospitals
+- `health_center` - Local health centers/clinics
+
+**ConsultationStatus:**
+- `pending` - Awaiting specialist response
+- `responded` - Specialist has provided guidance
+- `closed` - Consultation completed
+
+**UrgencyLevel:**
+- `routine` - Non-urgent, can wait
+- `urgent` - Needs attention within 24-48 hours
+- `emergency` - Immediate attention required
+
+**CarePathway:**
+- `home_care` - Manage at home
+- `local_clinic` - Continue at local facility
+- `district_referral` - Refer to district hospital
+- `urgent_transfer` - Immediate hospital transfer
+
+**NotificationType:**
+- `new_consultation` - New consultation request
+- `consultation_response` - Specialist response received
+- `patient_assigned` - New patient assigned
+- `system_alert` - System notification
+
+---
+
+## Deployment
+
+### Frontend (Netlify)
+
+The frontend is configured for Netlify deployment:
+
+1. **Connect Repository** to Netlify
+2. **Build Settings:**
+   - Base directory: `client`
+   - Build command: `npm install && npm run build`
+   - Publish directory: `dist`
+
+3. **Environment Variables:**
+   - Add `VITE_API_URL` with your backend API URL
+
+4. **SPA Routing:** Handled automatically via `netlify.toml`
+
+### Backend
+
+Deploy to any Node.js hosting platform:
+
+#### Heroku
+```bash
+cd server
+heroku create carelink-plus-api
+heroku config:set DATABASE_URL=<your-database-url>
+heroku config:set JWT_SECRET=<your-jwt-secret>
+heroku config:set NODE_ENV=production
+git push heroku main
+```
+
+#### Railway / Render
+1. Connect GitHub repository
+2. Set root directory to `server`
+3. Configure environment variables
+4. Deploy
+
+#### Docker
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY dist ./dist
+EXPOSE 5001
+CMD ["node", "dist/index.js"]
+```
+
+### Database (Supabase)
+
+1. Create Supabase project at https://supabase.com
+2. Get connection string from Settings > Database
+3. Set `DATABASE_URL` environment variable
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Code Style
+
+- Follow TypeScript best practices
+- Use ESLint for linting
+- Write meaningful commit messages
+- Add comments for complex logic
+
+
+**Built with care for Rwanda's healthcare system**
