@@ -364,7 +364,7 @@ System administrators who:
 ---
 ## Testing Results
 
-In this Folder You can Find the Testing Results Screenshots[Screenshots](screenshots/)
+In this Folder You can Find the Testing Results [Screenshots](screenshots/)
 
 # Result Analysis
 
