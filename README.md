@@ -2,7 +2,7 @@
 
 **Post-Referral Healthcare Continuity Platform for Rwanda**
 
-CareLink+ is a comprehensive healthcare referral management system designed to facilitate seamless communication between clinicians and specialists across different healthcare facilities in Rwanda. The platform enables patient discharge profile creation, consultation requests, and specialist responses, ensuring continuity of care for patients after hospital discharge.
+CareLink+ is a comprehensive healthcare referral management system designed to facilitate seamless communication between Clinical Officers and Doctors across different healthcare facilities in Rwanda. The platform enables patient discharge profile creation, consultation requests, and Doctor responses, ensuring continuity of care for patients after hospital discharge.
 
 ---
 
@@ -31,18 +31,18 @@ CareLink+ is a comprehensive healthcare referral management system designed to f
 
 ### Core Features
 
-- **Patient Discharge Profiles**: Specialists create comprehensive discharge profiles with diagnosis, treatment, and follow-up instructions
+- **Patient Discharge Profiles**: Doctors create comprehensive discharge profiles with diagnosis, treatment, and follow-up instructions
 - **Unique Patient Codes**: Auto-generated patient codes (format: `RW-XXXXX-XXXX`) for easy patient lookup across facilities
-- **Consultation Requests**: Clinicians can request specialist consultations for discharged patients
-- **Care Pathway Recommendations**: Specialists provide structured care pathway guidance (Home Care, Local Clinic, District Referral, Urgent Transfer)
+- **Consultation Requests**: Clinical Officers can request Doctor consultations for discharged patients
+- **Care Pathway Recommendations**: Doctors provide structured care pathway guidance (Home Care, Local Clinic, District Referral, Urgent Transfer)
 - **Real-time Notifications**: In-app notifications for consultation requests and responses
 - **SMS Integration**: Patient codes sent via SMS using Twilio
 - **Role-Based Access Control**: Three distinct user roles with specific permissions
 
 ### Dashboard Features
 
-- **Clinician Dashboard**: View pending consultations, recent responses, and patient search
-- **Specialist Dashboard**: Manage consultations, create discharge profiles, track response metrics
+- **Clinical Officer Dashboard**: View pending consultations, recent responses, and patient search
+- **Doctor Dashboard**: Manage consultations, create discharge profiles, track response metrics
 - **Admin Dashboard**: User management, facility management, system analytics
 - **Executive Dashboard**: High-level overview with Rwanda map visualization and key metrics
 
@@ -99,8 +99,8 @@ CareLink+/
 │   │   ├── hooks/               # Custom React hooks
 │   │   ├── pages/               # Page components
 │   │   │   ├── admin/           # Administrator pages
-│   │   │   ├── clinician/       # Clinician pages
-│   │   │   ├── specialist/      # Specialist pages
+│   │   │   ├── Clinical Officer/       # Clinical Officerpages
+│   │   │   ├── Doctor/      # Doctor pages
 │   │   │   ├── Login.tsx
 │   │   │   └── Notifications.tsx
 │   │   ├── services/            # API client services
@@ -277,18 +277,18 @@ npm run preview  # Preview production build
 
 ## User Roles
 
-### Specialist
-Healthcare specialists at referral or district hospitals who:
+### Doctor
+Healthcare Doctors at referral or district hospitals who:
 - Create discharge profiles for patients
-- Respond to consultation requests from clinicians
+- Respond to consultation requests from Clinical Officers
 - Provide care pathway recommendations
 - Track their patient outcomes
 
-### Clinician
+### Clinical Officer
 Healthcare workers at health centers or local clinics who:
 - Search for patients using unique patient codes
 - View patient discharge profiles
-- Create consultation requests for specialist guidance
+- Create consultation requests for Doctor guidance
 - Implement care recommendations
 - Close consultations after completing care
 
@@ -307,7 +307,7 @@ System administrators who:
 
 ```
 ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   SPECIALIST    │     │    PATIENT      │     │   CLINICIAN     │
+│   Doctor    │     │    PATIENT      │     │   Clinical Officer    │
 │  (Hospital)     │     │                 │     │  (Health Center)│
 └────────┬────────┘     └────────┬────────┘     └────────┬────────┘
          │                       │                       │
@@ -322,7 +322,7 @@ System administrators who:
          │                       │ 3. Patient visits     │
          │                       │    local clinic       │
          │                       │                       │
-         │                       │                       │ 4. Clinician searches
+         │                       │                       │ 4. Clinical Officersearches
          │                       │                       │    patient by code
          │                       │                       │
          │                       │                       │ 5. Views discharge
@@ -332,12 +332,12 @@ System administrators who:
          │ 6. Consultation       │                       │
          │    Request received   │                       │
          │                       │                       │
-         │ 7. Specialist         │                       │
+         │ 7. Doctor         │                       │
          │    responds with      │                       │
          │    care pathway       │                       │
          ├───────────────────────┼──────────────────────►│
          │                       │                       │
-         │                       │                       │ 8. Clinician implements
+         │                       │                       │ 8. Clinical Officerimplements
          │                       │                       │    recommendations
          │                       │                       │
          │                       │                       │ 9. Closes consultation
@@ -398,7 +398,7 @@ POST /api/auth/login
     "email": "user@example.com",
     "firstName": "John",
     "lastName": "Doe",
-    "role": "clinician",
+    "role": "Clinical Officer",
     "specialty": "General Medicine",
     "facility": {
       "id": 1,
@@ -415,8 +415,8 @@ POST /api/auth/login
 | GET | `/patients/search?code=XXX` | Search patients by code | Yes | All |
 | GET | `/patients/code/:code` | Get patient by code | Yes | All |
 | GET | `/patients/:id` | Get patient by ID | Yes | All |
-| GET | `/patients/my-patients` | Get specialist's patients | Yes | Specialist |
-| POST | `/patients/discharge` | Create discharge profile | Yes | Specialist |
+| GET | `/patients/my-patients` | Get Doctor's patients | Yes | Doctor |
+| POST | `/patients/discharge` | Create discharge profile | Yes | Doctor |
 
 **Create Discharge Profile:**
 ```json
@@ -440,8 +440,8 @@ POST /api/patients/discharge
 | GET | `/consultations` | List consultations | Yes | All |
 | GET | `/consultations/:id` | Get consultation details | Yes | All |
 | GET | `/consultations/stats` | Get dashboard statistics | Yes | All |
-| POST | `/consultations` | Create consultation | Yes | Clinician |
-| PUT | `/consultations/:id/respond` | Respond to consultation | Yes | Specialist |
+| POST | `/consultations` | Create consultation | Yes | Clinical Officer|
+| PUT | `/consultations/:id/respond` | Respond to consultation | Yes | Doctor |
 | PUT | `/consultations/:id/close` | Close consultation | Yes | All |
 
 **Create Consultation:**
@@ -528,7 +528,7 @@ PUT /api/consultations/:id/respond
 ├─────────────────┤   ├─────────────────┤
 │ id (PK)         │◄──│ id (PK)         │
 │ patientCode     │   │ patientId (FK)  │
-│ diagnosisSummary│   │ clinicianId(FK) │
+│ diagnosisSummary│   │ Clinical OfficerId(FK) │
 │ treatmentSummary│   │ facilityId (FK) │
 │ expectedSideEff │   │ symptoms[]      │
 │ warningSigns    │   │ symptomDesc     │
@@ -551,8 +551,8 @@ PUT /api/consultations/:id/respond
 ### Enums
 
 **UserRole:**
-- `specialist` - Hospital specialists
-- `clinician` - Health center clinicians
+- `Doctor` - Hospital Doctors
+- `Clinical Officer` - Health center Clinical Officers
 - `administrator` - System administrators
 
 **FacilityType:**
@@ -561,8 +561,8 @@ PUT /api/consultations/:id/respond
 - `health_center` - Local health centers/clinics
 
 **ConsultationStatus:**
-- `pending` - Awaiting specialist response
-- `responded` - Specialist has provided guidance
+- `pending` - Awaiting Doctor response
+- `responded` - Doctor has provided guidance
 - `closed` - Consultation completed
 
 **UrgencyLevel:**
@@ -578,7 +578,7 @@ PUT /api/consultations/:id/respond
 
 **NotificationType:**
 - `new_consultation` - New consultation request
-- `consultation_response` - Specialist response received
+- `consultation_response` - Doctor response received
 - `patient_assigned` - New patient assigned
 - `system_alert` - System notification
 
