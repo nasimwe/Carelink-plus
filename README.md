@@ -25,6 +25,7 @@ CareLink+ is a comprehensive healthcare referral management system designed to f
   - [Running the Application](#running-the-application)
 - [User Roles](#user-roles)
 - [Application Workflow](#application-workflow)
+- [Testing Results Analysis](#testing-results-analysis)
 - [API Documentation](#api-documentation)
 - [Database Schema](#database-schema)
 - [Deployment](#deployment)
@@ -363,7 +364,7 @@ System administrators who:
 ---
 ## Testing Results
 
-[View All Testing Screenshots](screenshots/)
+In this Folder You can Find the Testing Results Screenshots[Screenshots](screenshots/)
 
 # Result Analysis
 
