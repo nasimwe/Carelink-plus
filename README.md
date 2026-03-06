@@ -361,6 +361,23 @@ System administrators who:
 | **Urgent Transfer** | Immediate transfer to referral hospital required | Critical |
 
 ---
+## Testing Results
+
+[View All Testing Screenshots](screenshots/)
+
+# Result Analysis
+
+The testing results demonstrate that the CareLink+ platform was successfully implemented in alignment with the functional and non-functional requirements defined in the project proposal. The automated test suite recorded a 100% pass rate across 88 tests in 7 suites, covering the full scope of backend functionality including authentication, consultation workflows, patient management, notifications, SMS integration, and type definitions. This outcome confirms that the core development objective  designing and implementing a secure, role-based platform for structured doctor-to-doctor clinical consultations was fully achieved at the system level.
+
+Security and role enforcement were consistently validated across all tested components, confirming their correct implementation as high-priority requirements in the proposal. The system accurately restricted access based on user roles, rejected invalid credentials, and preserved audit-trail integrity throughout the full consultation lifecycle  directly reflecting the proposal's emphasis on clinical accountability and compliance with Rwanda's Data Protection and Privacy Law. Additionally, type definition testing confirmed that all core system enums were correctly implemented with accurate values and expected counts, ensuring data model consistency across the entire platform.
+
+Resilience testing through edge cases including SMS failure, inactive users, missing records, and unexpected server errors — confirmed that the system behaves predictably under adverse conditions, which is particularly significant given Rwanda's variable connectivity environment identified as a contextual constraint in the proposal. The SMS integration tests further validated that the system handles all real-world Rwandan phone number formats correctly and propagates errors appropriately, confirming the reliability of the notification delivery mechanism central to the consultation workflow.
+
+The responsiveness testing conducted across a physical iPhone, Google Chrome, and Microsoft Edge confirmed that the non-functional requirement of mobile accessibility was met, ensuring the platform is usable by healthcare providers at all facility levels, from referral hospitals to local health centers.
+
+However, the testing phase was limited to internal unit testing and did not produce empirical evidence for Specific Objective 3; evaluating effectiveness through healthcare outcome metrics such as reduced re-referrals and decreased tertiary hospital congestion. This objective remains partially unmet, as it requires pilot deployment with real clinical data, which falls outside the current development phase as acknowledged in the project scope.
+
+---
 
 ## API Documentation
 
